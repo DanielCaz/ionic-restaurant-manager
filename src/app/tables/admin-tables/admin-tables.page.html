@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-title>Admin Tables</ion-title>
+    <ion-back-button slot="start" defaultHref="/home"></ion-back-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-card *ngIf="showAddTable">
+    <ion-card-header>
+      <ion-card-title
+        >{{edittingTable ? 'Edit Table' : 'Add Table'}}</ion-card-title
+      >
+      <ion-card-subtitle *ngIf="newTable._id"
+        ><strong>ID:</strong> {{newTable._id}}</ion-card-subtitle
+      >
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Name</ion-label>
+        <ion-input
+          disabled="{{edittingTable}}"
+          [(ngModel)]="newTable.name"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Capacity</ion-label>
+        <ion-input
+          disabled="{{edittingTable}}"
+          [(ngModel)]="newTable.capacity"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Status</ion-label>
+        <ion-select [(ngModel)]="newTable.status">
+          <ion-select-option value="free">Free</ion-select-option>
+          <ion-select-option value="occupied">Occupied</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-button (click)="addTable()"
+        >{{edittingTable ? 'Edit' : 'Add'}}</ion-button
+      >
+      <ion-button style="margin-left: 2em" (click)="onClickFab()"
+        >Close</ion-button
+      >
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngFor="let table of tables">
+    <ion-card-header>
+      <ion-card-subtitle><strong>ID:</strong> {{table._id}}</ion-card-subtitle>
+      <ion-card-title>{{table.name}}</ion-card-title>
+      <!-- subtitle with status -->
+      <ion-card-subtitle
+        [ngClass]="{'table-status-free': table.status === 'free', 'table-status-occupied': table.status === 'occupied'}"
+      >
+        <strong>Status:</strong> {{table.status}}
+      </ion-card-subtitle>
+      <ion-card-subtitle
+        ><strong>Capacity:</strong> {{table.capacity}}</ion-card-subtitle
+      >
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button disabled="{{edittingTable}}" (click)="editTable(table)"
+        >Edit</ion-button
+      >
+      <ion-button
+        color="danger"
+        disabled="{{edittingTable}}"
+        style="margin-left: 1.5em"
+        (click)="deleteTable(table)"
+        >Delete</ion-button
+      >
+    </ion-card-content>
+  </ion-card>
+  <ion-fab style="margin: 2em" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="onClickFab()">
+      <ion-icon name="{{showAddTable ? 'remove' : 'add'}}"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

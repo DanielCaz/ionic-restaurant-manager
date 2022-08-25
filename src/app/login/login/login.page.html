@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list style="margin: 1em">
+    <ion-item>
+      <ion-label position="floating">User</ion-label>
+      <ion-input type="user" [(ngModel)]="user"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="password" [(ngModel)]="password"></ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-button style="margin: 0 1em" expand="block" (click)="login()"
+    >Login</ion-button
+  >
+</ion-content>

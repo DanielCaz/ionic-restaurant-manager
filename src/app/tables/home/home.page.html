@@ -1,0 +1,69 @@
+<ion-menu side="start" content-id="main-content">
+  <ion-header>
+    <ion-toolbar translucent>
+      <ion-title>Admin</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item>
+        <ion-icon slot="start" name="apps"></ion-icon>
+        <ion-label>Categories</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon slot="start" name="people"></ion-icon>
+        <ion-label>Clients</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon slot="start" name="car"></ion-icon>
+        <ion-label>Providers</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon slot="start" name="cart"></ion-icon>
+        <ion-label>Products</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon slot="start" name="grid"></ion-icon>
+        <ion-label routerLink="/admin/tables">Tables</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon slot="start" name="person"></ion-icon>
+        <ion-label>Users</ion-label>
+      </ion-item>
+      <ion-item-divider></ion-item-divider>
+      <ion-item>
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+        <ion-label (click)="signOut()">Sign out</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar color="secondary" style="color: black">
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Tables</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <!-- list of cards -->
+    <ion-card *ngFor="let table of tables">
+      <ion-card-header>
+        <ion-card-title>{{table.name}}</ion-card-title>
+        <!-- subtitle with status -->
+        <ion-card-subtitle
+          [ngClass]="{'table-status-free': table.status === 'free', 'table-status-occupied': table.status === 'occupied'}"
+        >
+          {{table.status}}
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-button (click)="openTable(table)">Open</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+</div>
