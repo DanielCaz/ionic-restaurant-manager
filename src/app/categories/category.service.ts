@@ -1,5 +1,7 @@
+/* eslint-disable no-underscore-dangle */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { Category } from './category';
 
 @Injectable({
@@ -9,18 +11,26 @@ export class CategoryService {
   constructor(private http: HttpClient) {}
 
   getCategories() {
-    return this.http.get<Category[]>('/api/categories');
+    return this.http.get<Category[]>(`${environment.apiUrl}/categories`);
   }
 
   addCategory(category: Category) {
-    return this.http.post<Category>('/api/categories', category);
-  }
-
-  updateCategory(category: Category) {
-    return this.http.put<Category>('/api/categories', category);
+    return this.http.post<Category>(
+      `${environment.apiUrl}/categories`,
+      category
+    );
   }
 
   deleteCategory(category: Category) {
-    return this.http.delete<Category>(`/api/categories/${category}`);
+    return this.http.delete<Category>(
+      `${environment.apiUrl}/categories/${category._id}`
+    );
+  }
+
+  updateCategory(category: Category) {
+    return this.http.patch<Category>(
+      `${environment.apiUrl}/categories/${category._id}`,
+      category
+    );
   }
 }

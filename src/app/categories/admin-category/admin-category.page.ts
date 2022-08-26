@@ -10,7 +10,7 @@ import { CategoryService } from '../category.service';
   styleUrls: ['./admin-category.page.scss'],
 })
 export class AdminCategoryPage implements OnInit {
-  categories: Category[];
+  categories: Category[] = [];
   newCategory: Category = {
     _id: '',
     name: '',
@@ -23,7 +23,9 @@ export class AdminCategoryPage implements OnInit {
     private loadingCtrl: LoadingController
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.loadCategories();
+  }
 
   async loadCategories() {
     const loading = await this.loadingCtrl.create({
@@ -60,12 +62,11 @@ export class AdminCategoryPage implements OnInit {
           loading.dismiss();
           this.showAddCategory = false;
           this.edittingCategory = false;
-          this.categories = this.categories.map((c) => {
-            if (c._id === category._id) {
-              return category;
-            } else {
-              return c;
+          this.categories = this.categories.map((t) => {
+            if (t._id === this.newCategory._id) {
+              return this.newCategory;
             }
+            return t;
           });
           this.newCategory = {
             _id: '',

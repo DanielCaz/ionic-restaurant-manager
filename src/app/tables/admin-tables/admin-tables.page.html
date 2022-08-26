@@ -6,7 +6,11 @@
 </ion-header>
 
 <ion-content>
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+  <ion-refresher
+    *ngIf="!showAddTable"
+    slot="fixed"
+    (ionRefresh)="doRefresh($event)"
+  >
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-card *ngIf="showAddTable">
@@ -21,17 +25,11 @@
     <ion-card-content>
       <ion-item>
         <ion-label position="floating">Name</ion-label>
-        <ion-input
-          disabled="{{edittingTable}}"
-          [(ngModel)]="newTable.name"
-        ></ion-input>
+        <ion-input [(ngModel)]="newTable.name"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Capacity</ion-label>
-        <ion-input
-          disabled="{{edittingTable}}"
-          [(ngModel)]="newTable.capacity"
-        ></ion-input>
+        <ion-input [(ngModel)]="newTable.capacity"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Status</ion-label>
@@ -41,10 +39,13 @@
           <ion-select-option value="cleaning">Cleaning</ion-select-option>
         </ion-select>
       </ion-item>
-      <ion-button (click)="addTable()"
+      <ion-button class="btn-add" (click)="addTable()"
         >{{edittingTable ? 'Edit' : 'Add'}}</ion-button
       >
-      <ion-button style="margin-left: 2em" (click)="onClickFab()"
+      <ion-button
+        class="btn-add"
+        style="margin-left: 2em"
+        (click)="onClickFab()"
         >Close</ion-button
       >
     </ion-card-content>

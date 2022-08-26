@@ -13,8 +13,8 @@ import { AdminProviderPage } from './admin-provider.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    AdminProviderPageRoutingModule
+    AdminProviderPageRoutingModule,
   ],
-  declarations: [AdminProviderPage]
+  declarations: [AdminProviderPage],
 })
 export class AdminProviderPageModule {}

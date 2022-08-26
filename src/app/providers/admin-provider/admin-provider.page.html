@@ -1,9 +1,90 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>adminProvider</ion-title>
+  <ion-toolbar color="tertiary">
+    <ion-title>Admin Provider</ion-title>
+    <ion-back-button slot="start" defaultHref="/home"></ion-back-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-refresher
+    *ngIf="!showAddProvider"
+    slot="fixed"
+    (ionRefresh)="doRefresh($event)"
+  >
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-card *ngIf="showAddProvider">
+    <ion-card-header>
+      <ion-card-title
+        >{{edittingProvider ? 'Edit Provider' : 'Add Provider'}}</ion-card-title
+      >
+      <ion-card-subtitle *ngIf="newProvider._id"
+        ><strong>ID:</strong> {{newProvider._id}}</ion-card-subtitle
+      >
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Name</ion-label>
+        <ion-input [(ngModel)]="newProvider.name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" [(ngModel)]="newProvider.email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Phone</ion-label>
+        <ion-input type="tel" [(ngModel)]="newProvider.phone"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">RFC</ion-label>
+        <ion-input [(ngModel)]="newProvider.rfc"></ion-input>
+      </ion-item>
+      <ion-button class="btn-add" (click)="addProvider()"
+        >{{edittingProvider ? 'Edit' : 'Add'}}</ion-button
+      >
+      <ion-button
+        class="btn-add"
+        style="margin-left: 2em"
+        (click)="onClickFab()"
+        >Close</ion-button
+      >
+    </ion-card-content>
+  </ion-card>
 
+  <ion-card *ngFor="let provider of providers">
+    <ion-card-header>
+      <ion-card-subtitle
+        ><strong>ID:</strong> {{provider._id}}</ion-card-subtitle
+      >
+      <ion-card-title>{{provider.name}}</ion-card-title>
+      <ion-card-subtitle
+        ><strong>Email:</strong> {{provider.email}}</ion-card-subtitle
+      >
+      <ion-card-subtitle
+        ><strong>Phone:</strong> {{provider.phone}}</ion-card-subtitle
+      >
+      <ion-card-subtitle
+        ><strong>RFC:</strong> {{provider.rfc}}</ion-card-subtitle
+      >
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button
+        (click)="editProvider(provider)"
+        style="margin-right: 2em"
+        disabled="{{edittingProvider}}"
+        >Edit</ion-button
+      >
+      <ion-button
+        (click)="deleteProvider(provider)"
+        color="danger"
+        disabled="{{edittingProvider}}"
+        >Delete</ion-button
+      >
+    </ion-card-content>
+  </ion-card>
+  <ion-fab class="fab" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="onClickFab()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

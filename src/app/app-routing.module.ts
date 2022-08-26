@@ -52,6 +52,13 @@ const routes: Routes = [
         (m) => m.AdminUsersPageModule
       ),
   },
+  {
+    path: 'admin/clients',
+    loadChildren: () =>
+      import('./clientes/admin-clients/admin-clients.module').then(
+        (m) => m.AdminClientsPageModule
+      ),
+  },
 ];
 
 @NgModule({

@@ -10,15 +10,15 @@
         <ion-icon slot="start" name="apps"></ion-icon>
         <ion-label>Categories</ion-label>
       </ion-item>
-      <ion-item>
+      <ion-item routerLink="/admin/clients">
         <ion-icon slot="start" name="people"></ion-icon>
         <ion-label>Clients</ion-label>
       </ion-item>
-      <ion-item>
+      <ion-item routerLink="/admin/providers">
         <ion-icon slot="start" name="car"></ion-icon>
         <ion-label>Providers</ion-label>
       </ion-item>
-      <ion-item>
+      <ion-item routerLink="/admin/products">
         <ion-icon slot="start" name="cart"></ion-icon>
         <ion-label>Products</ion-label>
       </ion-item>
@@ -26,14 +26,9 @@
         <ion-icon slot="start" name="grid"></ion-icon>
         <ion-label>Tables</ion-label>
       </ion-item>
-      <ion-item>
+      <ion-item routerLink="/admin/users">
         <ion-icon slot="start" name="person"></ion-icon>
         <ion-label>Users</ion-label>
-      </ion-item>
-      <ion-item-divider></ion-item-divider>
-      <ion-item>
-        <ion-icon name="log-out-outline" slot="start"></ion-icon>
-        <ion-label (click)="signOut()">Sign out</ion-label>
       </ion-item>
     </ion-list>
   </ion-content>
@@ -46,15 +41,17 @@
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
       <ion-title>Tables</ion-title>
+      <ion-button slot="end" style="margin-right: 1em"> Menu </ion-button>
+      <ion-button (click)="signOut()" slot="end" style="margin-right: 1em">
+        Sign Out
+      </ion-button>
     </ion-toolbar>
   </ion-header>
 
   <ion-content>
-    <!-- list of cards -->
     <ion-card *ngFor="let table of tables">
       <ion-card-header>
         <ion-card-title>{{table.name}}</ion-card-title>
-        <!-- subtitle with status -->
         <ion-card-subtitle
           [ngClass]="{'table-status-free': table.status === 'free', 'table-status-occupied': table.status === 'occupied'}"
         >

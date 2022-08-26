@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -19,13 +20,11 @@ export class TablesService {
   }
 
   deleteTable(table: Table): Observable<Table> {
-    // eslint-disable-next-line no-underscore-dangle
     return this.http.delete<Table>(`${environment.apiUrl}/tables/${table._id}`);
   }
 
   updateTable(table: Table): Observable<Table> {
     return this.http.patch<Table>(
-      // eslint-disable-next-line no-underscore-dangle
       `${environment.apiUrl}/tables/${table._id}`,
       table
     );
