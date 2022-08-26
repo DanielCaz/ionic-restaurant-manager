@@ -24,6 +24,34 @@ const routes: Routes = [
         (m) => m.AdminTablesPageModule
       ),
   },
+  {
+    path: 'admin/providers',
+    loadChildren: () =>
+      import('./providers/admin-provider/admin-provider.module').then(
+        (m) => m.AdminProviderPageModule
+      ),
+  },
+  {
+    path: 'admin/categories',
+    loadChildren: () =>
+      import('./categories/admin-category/admin-category.module').then(
+        (m) => m.AdminCategoryPageModule
+      ),
+  },
+  {
+    path: 'admin/products',
+    loadChildren: () =>
+      import('./products/admin-product/admin-product.module').then(
+        (m) => m.AdminProductPageModule
+      ),
+  },
+  {
+    path: 'admin/users',
+    loadChildren: () =>
+      import('./users/admin-users/admin-users.module').then(
+        (m) => m.AdminUsersPageModule
+      ),
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Admin Category</ion-title>
+    <ion-back-button slot="start" defaultHref="/home"></ion-back-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-card *ngIf="showAddCategory">
+    <ion-card-header>
+      <ion-card-title
+        >{{edittingCategory ? 'Edit Category' : 'Add Category'}}</ion-card-title
+      >
+      <ion-card-subtitle *ngIf="newCategory._id"
+        ><strong>ID:</strong> {{newCategory._id}}</ion-card-subtitle
+      >
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Name</ion-label>
+        <ion-input
+          disabled="{{edittingCategory}}"
+          [(ngModel)]="newCategory.name"
+        ></ion-input>
+      </ion-item>
+      <ion-button (click)="addCategory()"
+        >{{edittingCategory ? 'Edit' : 'Add'}}</ion-button
+      >
+      <ion-button style="margin-left: 2em" (click)="onClickFab()"
+        >Close</ion-button
+      >
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngFor="let category of categories">
+    <ion-card-header>
+      <ion-card-subtitle
+        ><strong>ID:</strong> {{category._id}}</ion-card-subtitle
+      >
+      <ion-card-title>{{category.name}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button (click)="editCategory(category)" style="margin-right: 2em"
+        >Edit</ion-button
+      >
+      <ion-button (click)="deleteCategory(category)">Delete</ion-button>
+    </ion-card-content>
+  </ion-card>
+  <ion-fab class="fab" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="onClickFab()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

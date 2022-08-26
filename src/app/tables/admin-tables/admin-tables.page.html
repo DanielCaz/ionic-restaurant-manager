@@ -38,6 +38,7 @@
         <ion-select [(ngModel)]="newTable.status">
           <ion-select-option value="free">Free</ion-select-option>
           <ion-select-option value="occupied">Occupied</ion-select-option>
+          <ion-select-option value="cleaning">Cleaning</ion-select-option>
         </ion-select>
       </ion-item>
       <ion-button (click)="addTable()"
@@ -55,7 +56,7 @@
       <ion-card-title>{{table.name}}</ion-card-title>
       <!-- subtitle with status -->
       <ion-card-subtitle
-        [ngClass]="{'table-status-free': table.status === 'free', 'table-status-occupied': table.status === 'occupied'}"
+        [ngClass]="{'table-status-free': table.status === 'free', 'table-status-occupied': table.status === 'occupied', 'table-status-cleaning': table.status === 'cleaning'}"
       >
         <strong>Status:</strong> {{table.status}}
       </ion-card-subtitle>
@@ -76,7 +77,7 @@
       >
     </ion-card-content>
   </ion-card>
-  <ion-fab style="margin: 2em" vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab class="fab" vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="onClickFab()">
       <ion-icon name="{{showAddTable ? 'remove' : 'add'}}"></ion-icon>
     </ion-fab-button>
