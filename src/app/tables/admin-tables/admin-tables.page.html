@@ -9,7 +9,7 @@
   <ion-refresher
     *ngIf="!showAddTable"
     slot="fixed"
-    (ionRefresh)="doRefresh($event)"
+    (ionRefresh)="loadTables($event)"
   >
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -29,7 +29,10 @@
       </ion-item>
       <ion-item>
         <ion-label position="floating">Capacity</ion-label>
-        <ion-input [(ngModel)]="newTable.capacity"></ion-input>
+        <ion-input
+          inputmode="numeric"
+          [(ngModel)]="newTable.capacity"
+        ></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Status</ion-label>
@@ -55,7 +58,6 @@
     <ion-card-header>
       <ion-card-subtitle><strong>ID:</strong> {{table._id}}</ion-card-subtitle>
       <ion-card-title>{{table.name}}</ion-card-title>
-      <!-- subtitle with status -->
       <ion-card-subtitle
         [ngClass]="{'table-status-free': table.status === 'free', 'table-status-occupied': table.status === 'occupied', 'table-status-cleaning': table.status === 'cleaning'}"
       >
@@ -66,13 +68,15 @@
       >
     </ion-card-header>
     <ion-card-content>
-      <ion-button disabled="{{edittingTable}}" (click)="editTable(table)"
+      <ion-button
+        disabled="{{edittingTable}}"
+        style="margin-right: 2em"
+        (click)="editTable(table)"
         >Edit</ion-button
       >
       <ion-button
         color="danger"
         disabled="{{edittingTable}}"
-        style="margin-left: 1.5em"
         (click)="deleteTable(table)"
         >Delete</ion-button
       >

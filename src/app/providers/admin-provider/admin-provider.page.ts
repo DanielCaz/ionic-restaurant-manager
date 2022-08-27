@@ -30,7 +30,7 @@ export class AdminProviderPage implements OnInit {
     this.loadProviders();
   }
 
-  async loadProviders() {
+  async loadProviders(event?) {
     const loading = await this.loadingCtrl.create({
       message: 'Loading Providers...',
       spinner: 'bubbles',
@@ -40,6 +40,9 @@ export class AdminProviderPage implements OnInit {
     this.providerService.getProviders().subscribe((providers) => {
       this.providers = providers;
       loading.dismiss();
+      if (event) {
+        event.target.complete();
+      }
     });
   }
 
@@ -89,6 +92,7 @@ export class AdminProviderPage implements OnInit {
             email: '',
           };
           loading.dismiss();
+          this.showAddProvider = false;
         });
     }
   }
@@ -118,12 +122,5 @@ export class AdminProviderPage implements OnInit {
         email: '',
       };
     }
-  }
-
-  doRefresh(event) {
-    this.providerService.getProviders().subscribe((providers) => {
-      this.providers = providers;
-      event.target.complete();
-    });
   }
 }

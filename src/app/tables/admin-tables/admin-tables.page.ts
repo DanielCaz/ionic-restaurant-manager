@@ -29,7 +29,7 @@ export class AdminTablesPage implements OnInit {
     this.loadTables();
   }
 
-  async loadTables() {
+  async loadTables(event?) {
     const loading = await this.loadinCtrl.create({
       message: 'Loading Tables...',
       spinner: 'bubbles',
@@ -39,6 +39,9 @@ export class AdminTablesPage implements OnInit {
     this.tableService.getTables().subscribe((tables) => {
       this.tables = tables;
       loading.dismiss();
+      if (event) {
+        event.target.complete();
+      }
     });
   }
 
@@ -83,6 +86,7 @@ export class AdminTablesPage implements OnInit {
           status: '',
         };
         loading.dismiss();
+        this.showAddTable = false;
       });
     }
   }
@@ -111,12 +115,5 @@ export class AdminTablesPage implements OnInit {
         status: '',
       };
     }
-  }
-
-  doRefresh(event) {
-    this.tableService.getTables().subscribe((tables) => {
-      this.tables = tables;
-      event.target.complete();
-    });
   }
 }

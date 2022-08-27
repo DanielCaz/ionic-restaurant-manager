@@ -1,9 +1,104 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>adminUsers</ion-title>
+  <ion-toolbar color="tertiary">
+    <ion-title>Admin Users</ion-title>
+    <ion-back-button slot="start" defaultHref="/home"></ion-back-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-refresher
+    *ngIf="!showAddUser"
+    slot="fixed"
+    (ionRefresh)="loadUsers($event)"
+  >
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-card *ngIf="showAddUser">
+    <ion-card-header>
+      <ion-card-title
+        >{{edittingUser ? 'Edit User' : 'Add User'}}</ion-card-title
+      >
+      <ion-card-subtitle *ngIf="newUser._id"
+        ><strong>ID:</strong> {{newUser._id}}</ion-card-subtitle
+      >
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Name</ion-label>
+        <ion-input [(ngModel)]="newUser.name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Surname</ion-label>
+        <ion-input [(ngModel)]="newUser.surname"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" [(ngModel)]="newUser.password"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Role</ion-label>
+        <ion-select [(ngModel)]="newUser.role">
+          <ion-select-option value="admin">Admin</ion-select-option>
+          <ion-select-option value="waiter">Waiter</ion-select-option>
+          <ion-select-option value="chef">Chef</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-list *ngIf="newUser.role === 'waiter'">
+        <ion-label>Tables</ion-label>
+        <ion-item *ngFor="let table of fetchedTables">
+          <ion-label>{{table.name}}</ion-label>
+          <ion-checkbox
+            class="checkbox-user-table"
+            slot="start"
+            (click)="onClickTable(table, $event)"
+          ></ion-checkbox>
+        </ion-item>
+      </ion-list>
+      <ion-button class="btn-add" (click)="addUser()"
+        >{{edittingUser ? 'Edit' : 'Add'}}</ion-button
+      >
+      <ion-button
+        class="btn-add"
+        style="margin-left: 2em"
+        (click)="onClickFab()"
+        >Close</ion-button
+      >
+    </ion-card-content>
+  </ion-card>
 
+  <ion-card *ngFor="let user of users">
+    <ion-card-header>
+      <ion-card-subtitle><strong>ID:</strong> {{user._id}}</ion-card-subtitle>
+      <ion-card-title
+        >{{user.name}} {{user.surname}} • {{user.role}}</ion-card-title
+      >
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list *ngIf="user.role === 'waiter'">
+        <ion-label>Tables</ion-label>
+        <ion-item *ngFor="let table of user.tables">
+          <ion-label>{{table.name}}</ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-button
+        class="btn-add"
+        style="margin-right: 2em"
+        (click)="editUser(user)"
+        disabled="{{edittingUser}}"
+        >Edit</ion-button
+      >
+      <ion-button
+        color="danger"
+        class="btn-add"
+        (click)="deleteUser(user)"
+        disabled="{{edittingUser}}"
+        >Delete</ion-button
+      >
+    </ion-card-content>
+  </ion-card>
+  <ion-fab class="fab" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="onClickFab()">
+      <ion-icon name="{{showAddUser ? 'remove' : 'add'}}"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

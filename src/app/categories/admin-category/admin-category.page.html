@@ -9,7 +9,7 @@
   <ion-refresher
     *ngIf="!showAddCategory"
     slot="fixed"
-    (ionRefresh)="doRefresh($event)"
+    (ionRefresh)="loadCategories($event)"
   >
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -63,7 +63,7 @@
   </ion-card>
   <ion-fab class="fab" vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="onClickFab()">
-      <ion-icon name="add"></ion-icon>
+      <ion-icon name="{{showAddCategory ? 'remove' : 'add'}}"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>

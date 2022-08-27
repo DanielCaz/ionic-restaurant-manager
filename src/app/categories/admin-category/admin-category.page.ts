@@ -27,7 +27,7 @@ export class AdminCategoryPage implements OnInit {
     this.loadCategories();
   }
 
-  async loadCategories() {
+  async loadCategories(event?) {
     const loading = await this.loadingCtrl.create({
       message: 'Loading Categories...',
       spinner: 'bubbles',
@@ -37,6 +37,9 @@ export class AdminCategoryPage implements OnInit {
     this.categoryService.getCategories().subscribe((categories) => {
       this.categories = categories;
       loading.dismiss();
+      if (event) {
+        event.target.complete();
+      }
     });
   }
 
@@ -83,6 +86,7 @@ export class AdminCategoryPage implements OnInit {
             name: '',
           };
           loading.dismiss();
+          this.showAddCategory = false;
         });
     }
   }
@@ -109,12 +113,5 @@ export class AdminCategoryPage implements OnInit {
         name: '',
       };
     }
-  }
-
-  doRefresh(event) {
-    this.categoryService.getCategories().subscribe((categories) => {
-      this.categories = categories;
-      event.target.complete();
-    });
   }
 }
