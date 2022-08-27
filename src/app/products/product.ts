@@ -6,8 +6,8 @@ export interface Product {
   name: string;
   price: number;
   cost: number;
-  category: Category;
-  provider: Provider;
+  category: string;
+  provider: string;
   description: string;
   image: string;
 }

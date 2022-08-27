@@ -46,10 +46,7 @@ export class AdminUsersPage implements OnInit {
     this.userService.getUsers().subscribe((users) => {
       this.users = users;
       loading.dismiss();
-      this.loadTables();
-      if (event) {
-        event.target.complete();
-      }
+      this.loadTables(event);
     });
   }
 
@@ -64,23 +61,27 @@ export class AdminUsersPage implements OnInit {
     this.edittingUser = true;
     this.newUser = { ...user };
 
-    let checkboxes;
-    const interval = setInterval(() => {
-      checkboxes = document.querySelectorAll<HTMLIonCheckboxElement>(
-        '.checkbox-user-table'
-      );
-      if (checkboxes.length > 0) {
-        checkboxes.forEach((checkbox: HTMLIonCheckboxElement) => {
-          const label = checkbox.previousSibling as HTMLLabelElement;
-          const tableName = label.innerText;
-          if (this.newUser.tables.find((t) => t.name === tableName)) {
-            checkbox.checked = true;
-          }
-        });
-        clearInterval(interval);
-        loading.dismiss();
-      }
-    }, 100);
+    if (user.role === 'waiter') {
+      let checkboxes;
+      const interval = setInterval(() => {
+        checkboxes = document.querySelectorAll<HTMLIonCheckboxElement>(
+          '.checkbox-user-table'
+        );
+        if (checkboxes.length > 0) {
+          checkboxes.forEach((checkbox: HTMLIonCheckboxElement) => {
+            const label = checkbox.previousSibling as HTMLLabelElement;
+            const tableName = label.innerText;
+            if (this.newUser.tables.find((t) => t.name === tableName)) {
+              checkbox.checked = true;
+            }
+          });
+          clearInterval(interval);
+          loading.dismiss();
+        }
+      }, 100);
+    } else {
+      loading.dismiss();
+    }
   }
 
   async addUser() {
@@ -166,7 +167,7 @@ export class AdminUsersPage implements OnInit {
     }
   }
 
-  private async loadTables() {
+  private async loadTables(event?) {
     const loading = await this.loadinCtrl.create({
       message: 'Loading Tables...',
       spinner: 'bubbles',
@@ -176,6 +177,9 @@ export class AdminUsersPage implements OnInit {
     this.tableService.getTables().subscribe((tables) => {
       this.fetchedTables = tables;
       loading.dismiss();
+      if (event) {
+        event.target.complete();
+      }
     });
   }
 }

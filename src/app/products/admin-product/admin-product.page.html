@@ -1,9 +1,133 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>adminProduct</ion-title>
+  <ion-toolbar color="tertiary">
+    <ion-title>Admin Product</ion-title>
+    <ion-back-button slot="start" defaultHref="/home"></ion-back-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-refresher
+    *ngIf="!showAddProduct"
+    slot="fixed"
+    (ion-refresh)="loadProducts($event)"
+  >
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-card *ngIf="showAddProduct">
+    <ion-card-header>
+      <ion-card-title
+        >{{edittingProduct ? 'Edit Product' : 'Add Product'}}</ion-card-title
+      >
+      <ion-card-subtitle *ngIf="newProduct._id"
+        ><strong>ID:</strong> {{newProduct._id}}</ion-card-subtitle
+      >
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Name</ion-label>
+        <ion-input [(ngModel)]="newProduct.name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Price</ion-label>
+        <ion-input [(ngModel)]="newProduct.price"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Cost</ion-label>
+        <ion-input [(ngModel)]="newProduct.cost"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Description</ion-label>
+        <ion-input [(ngModel)]="newProduct.description"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Category</ion-label>
+        <ion-select
+          [(ngModel)]="newProduct.category"
+          interface="popover"
+          placeholder="Select Category"
+        >
+          <ion-select-option
+            *ngFor="let category of categories"
+            [value]="category.name"
+          >
+            {{category.name}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Provider</ion-label>
+        <ion-select
+          [(ngModel)]="newProduct.provider"
+          interface="popover"
+          placeholder="Select Provider"
+        >
+          <ion-select-option
+            *ngFor="let provider of providers"
+            [value]="provider.name"
+          >
+            {{provider.name}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Image</ion-label>
+        <ion-input [(ngModel)]="newProduct.image"></ion-input>
+      </ion-item>
+      <ion-button class="btn-add" (click)="addProduct()"
+        >{{edittingProduct ? 'Edit' : 'Add'}}</ion-button
+      >
+      <ion-button
+        class="btn-add"
+        style="margin-left: 2em"
+        (click)="onClickFab()"
+        >Close</ion-button
+      >
+    </ion-card-content>
+  </ion-card>
 
+  <ion-card *ngFor="let product of products">
+    <ion-card-header>
+      <ion-card-subtitle
+        ><strong>ID:</strong> {{product._id}}</ion-card-subtitle
+      >
+      <ion-card-title>{{product.name}}</ion-card-title>
+      <ion-card-subtitle
+        ><strong>Price:</strong> {{product.price}}</ion-card-subtitle
+      >
+      <ion-card-subtitle
+        ><strong>Cost:</strong> {{product.cost}}</ion-card-subtitle
+      >
+      <ion-card-subtitle
+        ><strong>Description:</strong>
+        {{product.description}}</ion-card-subtitle
+      >
+      <ion-card-subtitle
+        ><strong>Category:</strong> {{product.category}}</ion-card-subtitle
+      >
+      <ion-card-subtitle
+        ><strong>Provider:</strong> {{product.provider}}</ion-card-subtitle
+      >
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button
+        disabled="{{edittingProduct}}"
+        class="btn-add"
+        (click)="editProduct(product)"
+        >Edit</ion-button
+      >
+      <ion-button
+        color="danger"
+        disabled="{{edittingProduct}}"
+        class="btn-add"
+        style="margin-left: 2em"
+        (click)="deleteProduct(product)"
+        >Delete</ion-button
+      >
+    </ion-card-content>
+  </ion-card>
+  <ion-fab class="fab" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="onClickFab()">
+      <ion-icon name="{{showAddProduct ? 'remove' : 'add'}}"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
